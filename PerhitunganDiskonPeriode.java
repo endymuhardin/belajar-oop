@@ -1,10 +1,16 @@
-public class PerhitunganDiskonPeriode implements Diskon {
+public class PerhitunganDiskonPeriode implements DiskonBersyarat {
+    private Pembelian pembelian;
+    
     public BigDecimal hitungDiskon(Pembelian p){
-        Date waktuTransaksi = p.getWaktu();
-        if(dekatTahunBaru(waktuTransaksi)){
+        this.pembelian = p;
+        if(berlaku()){
             return new BigDecimal(0.2)
             .multiply(p.hitungTotal());
         }
+    }
+    
+    public Boolean berlaku(){
+        return dekatTahunBaru(pembelian.getWaktu());
     }
     
     private Boolean dekatTahunBaru(Date waktu){
